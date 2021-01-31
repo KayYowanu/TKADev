@@ -1,0 +1,41 @@
+﻿@page "/addPost"
+@inject IPostService postService
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h1>
+    Add Post
+</h1>
+<style>
+  
+</style>
+<div class="row">
+    <div class="col-md-6">
+        <form>
+            <label for="Name" class="control-label">Title: </label>
+            <input for="Name" class="form-control" placeholder="Write the Title here...." @bind-value="@tkaposts.Title" />
+            <br />
+            <br />
+            <textarea class="control-label" rows="7" cols="65" placeholder="Write the Description here...." @bind=@tkaposts.Description></textarea>
+            <br />
+            <br />
+            <button type="button" class="btn btn-primary" @onclick="() => CreatePost()">Save Post</button>
+            <button type="button" class="btn btn-danger" @onclick="() => cancel()">Cancel</button>
+
+        </form>
+    </div>
+</div>
+
+@code {
+
+    TKAPosts tkaposts = new TKAPosts();
+
+    protected async Task CreatePost()
+    {
+        await postService.CreatePost(tkaposts);
+        navigationManager.NavigateTo("/myposts");
+    }
+
+    void cancel()
+    {
+        navigationManager.NavigateTo("/myposts");
+    }
+}
